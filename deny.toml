@@ -1,0 +1,50 @@
+# cargo-deny configuration: https://embarkstudios.github.io/cargo-deny/
+
+[graph]
+targets = [
+  "x86_64-unknown-linux-gnu",
+  "aarch64-unknown-linux-gnu",
+  "x86_64-apple-darwin",
+  "aarch64-apple-darwin",
+  "x86_64-pc-windows-msvc",
+]
+all-features = true
+
+[advisories]
+# Vulnerabilities, and unmaintained or yanked crates, fail the check.
+yanked = "deny"
+# Each ignored advisory must explain why the service is not affected; review them on updates.
+ignore = [
+  # quick-xml 0.37 (oxigraph 0.5): only used to parse RDF/XML and SPARQL XML results, which the
+  # service never does (it neither loads RDF documents nor runs SPARQL queries from requests).
+  { id = "RUSTSEC-2026-0194", reason = "XML parsing is not reachable in this service" },
+  { id = "RUSTSEC-2026-0195", reason = "XML parsing is not reachable in this service" },
+  # rsa (jsonwebtoken rust_crypto backend): the timing side channel concerns private key
+  # operations; the service only verifies signatures with public keys. No fixed version exists.
+  { id = "RUSTSEC-2023-0071", reason = "only RSA public-key signature verification is used" },
+]
+
+[licenses]
+# Permissive licenses compatible with distributing this project under Apache-2.0.
+allow = [
+  "Apache-2.0",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "BSL-1.0",
+  "CDLA-Permissive-2.0",
+  "ISC",
+  "MIT",
+  "Unicode-3.0",
+  "Zlib",
+]
+confidence-threshold = 0.9
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

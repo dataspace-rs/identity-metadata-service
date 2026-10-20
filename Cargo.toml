@@ -1,0 +1,38 @@
+[package]
+name = "identity-metadata-service"
+version = "0.0.1"
+edition = "2024"
+rust-version = "1.89"
+license = "Apache-2.0"
+description= "Server to present public identity information."
+repository = "https://github.com/dataspace-rs/identity-metadata-service"
+keywords = ["dataspace", "http"]
+categories = []
+readme = "README.md"
+authors = [
+  "Marc-Antoine Arnaud <marc-antoine.arnaud@luminvent.com>",
+]
+
+[dependencies]
+axum = "0.8"
+base64 = "0.23.1"
+oauth2 = "5"
+oxigraph = "0.5"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "sync"] }
+tower-http = { version = "0.7.1", features = ["trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+url = "2"
+uuid = { version = "1", features = ["v4"] }
+utoipa = { version = "5", features = ["uuid"] }
+identity-metadata-commons = { version = "0.2.0", features = ["utoipa"] }
+clap = { version = "4.6.7", features = ["derive", "env"] }
+jsonwebtoken = { version = "11.1.0", default-features = false, features = ["rust_crypto"] }
+
+[dev-dependencies]
+ed25519-dalek = "2"
+http-body-util = "0.1"
+tower = { version = "0.5", features = ["util"] }
